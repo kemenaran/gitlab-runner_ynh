@@ -1,0 +1,43 @@
+{
+    "packaging_format": 1,
+    "name": "GitLab Runner",
+    "id": "gitlab-runner",
+    "description": {
+        "en": "Run GitLab-CI jobs on your own server",
+        "fr": "Exécutez les jobs de GitLab-CI sur votre propre serveur"
+    },
+    "url": "https://docs.gitlab.com/runner/",
+    "license": "free",
+    "maintainer": {
+        "name": "pmorinerie",
+        "email": "kemenaran@gmail.com"
+    },
+    "multi_instance": false,
+    "services": [],
+    "requirements": {
+      "yunohost": ">= 2.7.0"
+    },
+    "arguments": {
+        "install" : [
+            {
+                "name": "instance",
+                "ask": {
+                    "en": "GitLab instance URL",
+                    "fr": "URL de l’instance GitLab"
+                },
+                "optional": false,
+                "example": "https://gitlab.com",
+                "default": "https://gitlab.com"
+            },
+	    {
+                "name": "token",
+                "ask": {
+                    "en": "Enter the GitLab-CI runner token for this runner",
+                    "fr": "Token d'enregistrement de GitLab-CI pour ce runner"
+                },
+                "optional": false,
+                "example": "W2bZHrRUuQ18nxW43JKM"
+            }
+        ]
+    }
+}

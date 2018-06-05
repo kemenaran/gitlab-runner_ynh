@@ -1,0 +1,25 @@
+#!/bin/bash
+set -u  # treat unset variables as an error
+
+#=================================================
+# GENERIC START
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
+source /usr/share/yunohost/helpers
+
+#=================================================
+# LOAD SETTINGS
+#=================================================
+
+app=$YNH_APP_INSTANCE_NAME
+
+# Stop the runner
+gitlab-runner uninstall
+
+# Uninstall the package previously installed with `ynh_install_app_dependencies`
+DEBIAN_FRONTEND=noninteractive apt-get remove -y -qq gitlab-runner
+
+# Unregister the Yunohost service
+sudo yunohost service remove "gitlab-runner"

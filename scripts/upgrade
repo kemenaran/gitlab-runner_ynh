@@ -1,0 +1,26 @@
+#!/bin/bash
+
+#=================================================
+# GENERIC START
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
+source /usr/share/yunohost/helpers
+
+#=================================================
+# MANAGE SCRIPT FAILURE
+#=================================================
+
+# Exit if an error occurs during the execution of the script
+ynh_abort_if_errors
+
+#=================================================
+# UPGRADE
+#=================================================
+
+# Update packages list
+ynh_package_update
+
+# Install upgrades if available
+DEBIAN_FRONTEND=noninteractive apt-get install -y -qq gitlab-runner

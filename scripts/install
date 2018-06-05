@@ -1,0 +1,57 @@
+#!/bin/bash
+
+#=================================================
+# GENERIC START
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
+source /usr/share/yunohost/helpers
+
+#=================================================
+# MANAGE SCRIPT FAILURE
+#=================================================
+
+# Exit if an error occurs during the execution of the script
+ynh_abort_if_errors
+
+#=================================================
+# RETRIEVE ARGUMENTS FROM THE MANIFEST
+#=================================================
+
+app=$YNH_APP_INSTANCE_NAME
+instance=$YNH_APP_ARG_INSTANCE
+token=$YNH_APP_ARG_TOKEN
+
+# Store settings
+ynh_app_setting_set "$app" instance "$instance"
+ynh_app_setting_set "$app" token    "$token"
+
+# Add GitLab’s official repository
+curl -L https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh | sudo bash
+
+# Pin GitLab’s repository, to give it a higher priority than Debian’s repository
+cat > /etc/apt/preferences.d/pin-gitlab-runner.pref <<EOF
+Explanation: Prefer GitLab provided packages over the Debian native ones
+Package: gitlab-runner
+Pin: origin packages.gitlab.com
+Pin-Priority: 1001
+EOF
+
+# Install the runner
+DEBIAN_FRONTEND=noninteractive apt-get install -y -qq gitlab-runner
+
+# Register the runner
+gitlab-runner register \
+  --non-interactive \
+  --url "$instance" \
+  --registration-token "$token" \
+  --executor "shell" \
+  --docker-image alpine:3 \
+  --description "Yunohost runner" \
+  --tag-list "" \
+  --run-untagged \
+  --locked="false" \
+
+# Add the runner to Yunohost service panel
+yunohost service add "gitlab-runner"
