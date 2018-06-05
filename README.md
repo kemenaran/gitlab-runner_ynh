@@ -31,5 +31,5 @@ This is your own server, so mind the disk usage. To ensure it doesn't get filled
 
 - Registering the runner on a GitLab instance for running CI jobs,
 - Executing jobs withing Docker images using the [Docker executor](https://docs.gitlab.com/runner/executors/#docker-executor),
-- Controlling the runner status from Yunohost Services panel;
+- Controlling the runner status from Yunohost Services panel,
 - Upgrading and removing the runner.
