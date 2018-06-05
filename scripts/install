@@ -27,6 +27,36 @@ token=$YNH_APP_ARG_TOKEN
 ynh_app_setting_set "$app" instance "$instance"
 ynh_app_setting_set "$app" token    "$token"
 
+#=================================================
+# INSTALL DOCKER
+#=================================================
+
+# Install Docker dependencies
+ynh_package_update
+DEBIAN_FRONTEND=noninteractive apt-get install -y -qq \
+   apt-transport-https \
+   ca-certificates \
+   curl \
+   gnupg2 \
+   software-properties-common
+
+# Add Docker’s official GPG key
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+
+# Add Docker’s official repository
+add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/debian \
+   $(lsb_release -cs) \
+   stable"
+
+# Install Docker
+ynh_package_update
+DEBIAN_FRONTEND=noninteractive apt-get install -y -qq docker-ce
+
+#=================================================
+# INSTALL GITLAB RUNNER
+#=================================================
+
 # Add GitLab’s official repository
 curl -L https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh | sudo bash
 
@@ -46,10 +76,10 @@ gitlab-runner register \
   --non-interactive \
   --url "$instance" \
   --registration-token "$token" \
-  --executor "shell" \
+  --executor "docker" \
   --docker-image alpine:3 \
   --description "Yunohost runner" \
-  --tag-list "" \
+  --tag-list "docker" \
   --run-untagged \
   --locked="false" \
 

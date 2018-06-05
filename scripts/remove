@@ -15,11 +15,20 @@ source /usr/share/yunohost/helpers
 
 app=$YNH_APP_INSTANCE_NAME
 
+#=================================================
+# REMOVE GITLAB RUNNER
+#=================================================
+
 # Stop the runner
-gitlab-runner uninstall
+command -v gitlab-runner >/dev/null 2>&1 && gitlab-runner uninstall
 
 # Uninstall the package previously installed with `ynh_install_app_dependencies`
 DEBIAN_FRONTEND=noninteractive apt-get remove -y -qq gitlab-runner
 
-# Unregister the Yunohost service
-sudo yunohost service remove "gitlab-runner"
+#=================================================
+# REMOVE SERVICE FROM ADMIN PANEL
+#=================================================
+
+if sudo yunohost service status | grep -q "gitlab-runner"; then
+  sudo yunohost service remove "gitlab-runner"
+fi

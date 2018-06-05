@@ -15,10 +15,7 @@ Before installing, you will need a **Runner token** from GitLab. For this, go to
 
 # What works
 
-- Registering the runner for running CI jobs,
-- The [shell executor](https://docs.gitlab.com/runner/executors/#shell-executor),
+- Registering the runner on a GitLab instance for running CI jobs,
+- Executing jobs withing Docker images using the [Docker executor](https://docs.gitlab.com/runner/executors/#docker-executor),
+- Controlling the runner status from Yunohost Services panel;
 - Upgrading and removing the runner.
-
-# TODO
-
-- Enable the [Docker executor](https://docs.gitlab.com/runner/executors/#docker-executor).
