@@ -79,7 +79,8 @@ gitlab-runner register \
   --executor "docker" \
   --docker-image alpine:3 \
   --description "Yunohost runner" \
-  --tag-list "docker" \
+  --tag-list "yunohost,docker" \
+  --docker-privileged \
   --run-untagged \
   --locked="false" \
 
