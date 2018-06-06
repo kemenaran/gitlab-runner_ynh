@@ -19,7 +19,8 @@ app=$YNH_APP_INSTANCE_NAME
 # REMOVE GITLAB RUNNER
 #=================================================
 
-# Stop the runner
+# Unregister runners and stop the service
+command -v gitlab-runner >/dev/null 2>&1 && gitlab-runner unregister --all-runners
 command -v gitlab-runner >/dev/null 2>&1 && gitlab-runner uninstall
 
 # Uninstall the package previously installed with `ynh_install_app_dependencies`
